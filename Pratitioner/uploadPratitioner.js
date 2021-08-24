@@ -4,6 +4,14 @@ const showPratitionerForm = () => {
 
     content.empty();
     content.append(`
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+        
+    </head>   
+    <body>
+    
     <form>
     <div class="container">
         <br/>
@@ -49,9 +57,10 @@ const showPratitionerForm = () => {
             </div>
             <label class="col-sm-2 col-form-label">電子信箱</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                <input type="text" class="form-control" id="email" placeholder="name@example.com">
             </div>
         </div>
+
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">語言</label>
             <div class="col-sm-10">
@@ -84,9 +93,52 @@ const showPratitionerForm = () => {
 
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">地址</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="address">
-            </div>
+            <label class="col-sm-1 col-form-label">郵遞區號</label>
+                <div class="col-sm-1">
+                    <input type="text" class="form-control" id="postalCode">
+                </div>
+            <label class="col-sm-1 col-form-label">縣(市)</label>
+                <div class="col-sm-2">
+                <select class="form-select" aria-label="city">
+                  <option selected>縣市選擇</option>
+                    <option value="基隆市">基隆市</option>
+                    <option value="台北市">台北市</option>
+                    <option value="台北縣">台北縣</option>
+                    <option value="桃園縣">桃園縣</option>
+                    <option value="新竹市">新竹市</option>
+                    <option value="新竹縣">新竹縣</option>
+                    <option value="苗栗縣">苗栗縣</option>
+                    <option value="台中市">台中市</option>
+                    <option value="台中縣">台中縣</option>
+                    <option value="彰化縣">彰化縣</option>
+                    <option value="南投縣">南投縣</option>
+                    <option value="雲林縣">雲林縣</option>
+                    <option value="嘉義市">嘉義市</option>
+                    <option value="嘉義縣">嘉義縣</option>
+                    <option value="台南市">台南市</option>
+                    <option value="台南縣">台南縣</option>
+                    <option value="高雄市">高雄市</option>
+                    <option value="高雄縣">高雄縣</option>
+                    <option value="屏東縣">屏東縣</option>
+                    <option value="台東縣">台東縣</option>
+                    <option value="花蓮縣">花蓮縣</option>
+                    <option value="宜蘭縣">宜蘭縣</option>
+                    <option value="澎湖縣">澎湖縣</option>
+                    <option value="金門縣">金門縣</option>
+                    <option value="連江縣">連江縣</option>
+                </select>
+                </div>
+            <label class="col-sm-1 col-form-label">行政區</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="district">
+                </div>
+            
+            <label class="col-sm-1 offset-sm-2 col-form-label">路段弄巷號</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="line">
+                
+            
+            
         </div>
         <br/>
         <div class="row">
@@ -110,7 +162,20 @@ const showPratitionerForm = () => {
                         <input type="date" class="form-control" id="endDate">
                     </div>
                 </div>
+                 <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">簽發單位</label>
+                    <div class="col-sm-5">
+                       <select class="form-select" aria-label="release">
+                          <option selected>單位選擇</option>
+                            <option value="考試院">考試院</option>
+                            <option value="行政院衛生署">行政院衛生署</option>
+                            <option value="其他">其他</option>
+                        </select>
+                    </div>
+                    
+                </div>
             </div>
+
             <div class="col-md-6"> 
                 <div class="col-sm-12">           
                   <textarea class="form-control" id="uploadData" rows="20">
@@ -119,14 +184,19 @@ const showPratitionerForm = () => {
                     </textarea>
                 </div>
             </div>  
+
         </div>
-        <a onclick="uploadPatientForm()" class="btn btn-primary">送出</button>
+      
     </div>
+         <a onclick="uploadPractitionerForm()" class="btn btn-primary">登錄</button>
     </form>
+       
+    </body>
+   
     `);
 }
 
-const uploadPatientForm = () => {
+const uploadPractitionerForm = () => {
     let content = $('#content');
 
     // 清除警告訊息
@@ -159,7 +229,7 @@ const uploadPatientForm = () => {
 
     // 資料檢查完畢，開始寫入
     const fhirData = {
-        resourceType: 'Patient',
+        resourceType: 'Practitioner',
         identifier: [{
             use: 'usual',
             type: {
@@ -188,7 +258,7 @@ const uploadPatientForm = () => {
     };
 
     // 送出至伺服器
-    fetch(`${baseUrl}/Patient`, {
+    fetch(`${baseUrl}/Practitioner`, {
         method: 'POST',
         body: JSON.stringify(fhirData),
         headers: {'Content-Type': 'application/fhir+json;charset=utf-8'}
